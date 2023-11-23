@@ -14,7 +14,7 @@ pipeline {
     }
     stage("Test") {
       steps {
-        sh "mvn test"
+        sh "mvn -Dmaven.repo.local=/tmp/.m2/repository test"
       }
       post {
         always {
