@@ -6,12 +6,17 @@ pipeline {
     }
   }
 
+  options {
+    skipStagesAfterUnstable()
+  }
+
   stages {
     stage("Build") {
       steps {
         sh "mvn -B -DskipTests -Dmaven.repo.local=/tmp/.m2/repository clean package"
       }
     }
+
     stage("Test") {
       steps {
         sh "mvn -Dmaven.repo.local=/tmp/.m2/repository test"
@@ -22,5 +27,12 @@ pipeline {
         }
       }
     }
+
+    stage("Deploy") {
+      steps {
+        sh "./jenkins/scripts/deliver.sh"
+      }
+    }
+
   }
 }
